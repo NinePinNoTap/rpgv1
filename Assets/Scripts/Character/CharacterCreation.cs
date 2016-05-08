@@ -11,6 +11,8 @@ public enum ClassType
 
 public class CharacterCreation : MonoBehaviour
 {
+    public GameObject MaleObj;
+    public GameObject FemaleObj;
     public Character CharacterInProgress;
     private ClassType SelectedClass;
     private CharacterGender SelectedGender;
@@ -78,9 +80,14 @@ public class CharacterCreation : MonoBehaviour
         {
             case CharacterGender.Male:
                 CharacterInProgress.Gender = CharacterGender.Male;
+                MaleObj.SetActive(true);
+                FemaleObj.SetActive(false);
                 break;
+
             case CharacterGender.Female:
                 CharacterInProgress.Gender = CharacterGender.Female;
+                MaleObj.SetActive(false);
+                FemaleObj.SetActive(true);
                 break;
         }
 

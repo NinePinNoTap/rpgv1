@@ -12,9 +12,9 @@ public class Character
 {
     [Header("Information")]
     public string Name;
+    public CharacterGender Gender;
     public int Level;
     public CharacterClass Class;
-    public CharacterGender Gender;
 
     [Header("Attributes")]
     public int Strength = 0;
