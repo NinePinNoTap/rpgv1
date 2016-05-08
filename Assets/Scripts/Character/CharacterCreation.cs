@@ -22,7 +22,7 @@ public class CharacterCreation : MonoBehaviour
 
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(30,30, Screen.width / 2, Screen.height - 30));
+        GUILayout.BeginArea(new Rect(30,30, Screen.width * 0.3f, Screen.height - 30));
         GUILayout.BeginVertical();
 
         //================
