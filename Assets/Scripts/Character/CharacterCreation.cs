@@ -4,14 +4,16 @@ using System.Text.RegularExpressions;
 
 public enum ClassType
 {
-    Hunter,
-    Mage,
-    Warrior
+    Hunter = 0,
+    Mage = 1,
+    Warrior = 2
 };
 
 public class CharacterCreation : MonoBehaviour
 {
     public Character CharacterInProgress;
+    private ClassType SelectedClass;
+    private CharacterGender SelectedGender;
 
 	void Start ()
 	{
@@ -20,13 +22,14 @@ public class CharacterCreation : MonoBehaviour
 
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(0,0, Screen.width, Screen.height));
+        GUILayout.BeginArea(new Rect(30,30, Screen.width / 2, Screen.height - 30));
         GUILayout.BeginVertical();
 
         //================
         // Character Name
         //================
 
+        GUILayout.Label("Character Name");
         CharacterInProgress.Name = GUILayout.TextArea(CharacterInProgress.Name, GUILayout.Width(300));
 
         // Format Input
@@ -36,6 +39,8 @@ public class CharacterCreation : MonoBehaviour
             CharacterInProgress.Name = CharacterInProgress.Name.Substring(0, 10);
         }
 
+        GUILayout.Space(15);
+
         GUILayout.BeginHorizontal();
 
         //==================
@@ -44,17 +49,19 @@ public class CharacterCreation : MonoBehaviour
 
         GUILayout.BeginVertical();
 
-        if(GUILayout.Button("Hunter", GUILayout.Width(100)))
+        SelectedClass = (ClassType)GUILayout.SelectionGrid((int)SelectedClass, new string[] { "Hunter", "Mage", "Warrior" }, 1);
+
+        switch(SelectedClass)
         {
-            CharacterInProgress.Class = new HunterClass();
-        }
-        else if(GUILayout.Button("Mage", GUILayout.Width(100)))
-        {
-            CharacterInProgress.Class = new MageClass();
-        }
-        else if(GUILayout.Button("Warrior", GUILayout.Width(100)))
-        {
-            CharacterInProgress.Class = new WarriorClass();
+            case ClassType.Hunter:
+                CharacterInProgress.Class = new HunterClass();
+                break;
+            case ClassType.Mage:
+                CharacterInProgress.Class = new MageClass();
+                break;
+            case ClassType.Warrior:
+                CharacterInProgress.Class = new WarriorClass();
+                break;
         }
 
         GUILayout.EndVertical();
@@ -65,23 +72,28 @@ public class CharacterCreation : MonoBehaviour
 
         GUILayout.BeginVertical();
 
-        if(GUILayout.Button("Male", GUILayout.Width(100)))
+        SelectedGender = (CharacterGender)GUILayout.SelectionGrid((int)SelectedGender, new string[] { "Male", "Female" }, 1);
+
+        switch(SelectedGender)
         {
-            CharacterInProgress.Gender = CharacterGender.Male;
-        }
-        else if(GUILayout.Button("Female", GUILayout.Width(100)))
-        {
-            CharacterInProgress.Gender = CharacterGender.Female;
+            case CharacterGender.Male:
+                CharacterInProgress.Gender = CharacterGender.Male;
+                break;
+            case CharacterGender.Female:
+                CharacterInProgress.Gender = CharacterGender.Female;
+                break;
         }
 
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
 
+        GUILayout.Space(30);
+
         //====================
         // Character Creation
         //====================
 
-        if(GUILayout.Button("Create Character"))
+        if(GUILayout.Button("Create", GUILayout.Width(100)))
         {
             if(CharacterInProgress.Name.Length > 3)
             {
