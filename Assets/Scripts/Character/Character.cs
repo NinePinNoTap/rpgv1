@@ -11,10 +11,14 @@ public enum CharacterGender
 public class Character
 {
     [Header("Information")]
-    public string Name;
+	public string Name;
     public CharacterGender Gender;
-    public int Level;
     public CharacterClass Class;
+
+	[Header("Levelling")]
+	public int Level;
+	public int CurrentLevelExperience;
+	public int RequiredLevelExperience;
 
     [Header("Attributes")]
     public int Strength = 0;
@@ -26,5 +30,30 @@ public class Character
         Name = "";
         Class = null;
         Level = 1;
+		CurrentLevelExperience = 0;
+		RequiredLevelExperience = ExperienceToLevel.GetRequiredXP(Level);
     }
+
+	public void AddExperience(int value)
+	{
+		// Don't grant experience at max level
+		if(Level == ExperienceToLevel.GetMaxLevel() + 1)
+		{
+			return;
+		}
+
+		// Add Experience
+		CurrentLevelExperience += value;
+
+		// Level Up
+		if(CurrentLevelExperience >= RequiredLevelExperience)
+		{
+			Debug.Log ("Level Up!");
+			Level++;
+			Level = Mathf.Clamp(Level, 0, ExperienceToLevel.GetMaxLevel() + 1);
+
+			CurrentLevelExperience = 0;
+			RequiredLevelExperience = ExperienceToLevel.GetRequiredXP(Level);
+		}
+	}
 }
