@@ -13,7 +13,7 @@ public class Character
     [Header("Information")]
 	public string Name;
     public CharacterGender Gender;
-    public CharacterClass Class;
+    public BaseCharacterClass Class;
 
 	[Header("Levelling")]
 	public int Level;

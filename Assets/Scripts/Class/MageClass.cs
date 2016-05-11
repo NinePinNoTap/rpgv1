@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MageClass : CharacterClass
+public class MageClass : BaseCharacterClass
 {
     public MageClass()
     {

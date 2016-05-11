@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public class CharacterClass
+public class BaseCharacterClass
 {
     public enum ResourceType
     {

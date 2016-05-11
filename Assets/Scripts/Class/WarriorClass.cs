@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WarriorClass : CharacterClass
+public class WarriorClass : BaseCharacterClass
 {
     public WarriorClass()
     {

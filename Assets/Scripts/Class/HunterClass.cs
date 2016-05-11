@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HunterClass : CharacterClass
+public class HunterClass : BaseCharacterClass
 {
     public HunterClass()
     {
