@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class InventoryWindow : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class InventoryWindow : MonoBehaviour
     public int columnCount = 9;
     public int rowCount = 3;
     public float slotPadding = 3;
-    public float slotSize = 25;
+    public float slotSize = 100;
     public GameObject slotPrefab;
     private List<GameObject> inventorySlots;
     private RectTransform inventoryBackground;
@@ -92,35 +93,26 @@ public class InventoryWindow : MonoBehaviour
 
     public void AddItem(BaseItem item)
     {
-        InventorySlot currentSlot;
-
+		// Limit Count
         if(HasTooMany(item))
         {
             Debug.Log("Too many instances found!");
             return;
         }
 
+		// Stack Item
         if (item.IsStackable())
         {
-            // Search the inventory for the item and add to the current stack
-            foreach (GameObject slotObj in inventorySlots)
-            {
-                currentSlot = slotObj.GetComponent<InventorySlot>();
+			IEnumerable<GameObject> objs = inventorySlots.Where(obj => obj.GetComponent<InventorySlot>().CanStack(item));
 
-                if (currentSlot.IsEmpty())
-                {
-                    continue;
-                }
-
-                if(currentSlot.CanStack(item))
-                {
-                    currentSlot.AddItem(item);
-                    return;
-                }
-            }
+			if(objs.Count() > 0)
+			{
+				objs.First().GetComponent<InventorySlot>().AddItem(item);
+				return;
+			}
         }
 
-        // Create new stack
+        // Create New Stack
         if (emptySlotCount > 0)
         {
             AddNewItem(item);
@@ -134,19 +126,13 @@ public class InventoryWindow : MonoBehaviour
 
     void AddNewItem(BaseItem item)
     {
-        InventorySlot invSlot;
+		IEnumerable<GameObject> emptySlots = inventorySlots.Where(obj => obj.GetComponent<InventorySlot>().IsEmpty());
 
-        foreach (GameObject obj in inventorySlots)
-        {
-            invSlot = obj.GetComponent<InventorySlot>();
-
-            if (invSlot.IsEmpty())
-            {
-                invSlot.AddItem(item);
-                emptySlotCount--;
-                return;
-            }
-        }
+		if(emptySlots.Count() > 0)
+		{
+			emptySlots.First().GetComponent<InventorySlot>().AddItem(item);
+			emptySlotCount--;
+		}
     }
 
     //========================================

@@ -142,6 +142,11 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public bool CanStack(BaseItem item)
     {
+		if(IsEmpty())
+		{
+			return false;
+		}
+	
         if(!GetItem().mainClass.Equals(item.mainClass))
         {
             return false;
