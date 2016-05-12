@@ -11,7 +11,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public Text slotText;
     public Image slotIcon;
     public Sprite slotEmpty;
-    public Sprite slotHighlighted;
     public float slotTextScale = 0.5f;
     public Stack<BaseItem> itemStack = new Stack<BaseItem>();
     public List<BaseItem> tempItems = new List<BaseItem>();
@@ -31,16 +30,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRect.sizeDelta.x * 0.9f);
         textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRect.sizeDelta.y * 0.9f);
         slotText.text = "";
-
-        // Config Default Icon
-        UpdateItemIcon();
 	}
-
-    void Update()
-    {
-        tempItems.Clear();
-        tempItems.AddRange(itemStack);
-    }
 
     void UseItem()
     {
@@ -50,16 +40,12 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
 			item.Use();
 
-			if(item.HasLimitedCharges())
+			if(item.HasExpired())
 			{
-				item.remainingCharges--;
-				if(item.remainingCharges == 0)
-				{
-					itemStack.Pop();
+				itemStack.Pop();
 
-					UpdateTextCounter();
-					UpdateItemIcon();
-				}
+				UpdateTextCounter();
+				UpdateItemIcon();
 			}
         }
     }
@@ -75,24 +61,19 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         {
             slotText.text = "";
         }
-
-        if (IsEmpty())
-        {
-            InventoryWindow.emptySlotCount++;
-        }
     }
 
     void UpdateItemIcon()
     {
         if(IsEmpty())
         {
-            slotIcon.color = new Color(0,0,0,0);
+			slotIcon.sprite = slotEmpty;
+			slotIcon.overrideSprite = slotEmpty;
         }
         else
         {
             slotIcon.sprite = GetItem().itemIcon;
             slotIcon.overrideSprite = GetItem().itemIcon;
-            slotIcon.color = new Color(1,1,1,1);
         }
     }
 
@@ -184,9 +165,29 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             UseItem();
         }
     }
+
+	//=====================
+	// Show / Hide Tooltip 
+	//=====================
+
+	public void ShowTooltip()
+	{
+		if(IsEmpty ())
+		{
+			Debug.Log ("No Item in Slot");
+			return;
+		}
+
+		InventoryWindow.Instance.tooltipWindow.ShowTooltip(this);
+	}
+
+	public void HideTooltip()
+	{
+		InventoryWindow.Instance.tooltipWindow.HideTooltip();
+	}
 }

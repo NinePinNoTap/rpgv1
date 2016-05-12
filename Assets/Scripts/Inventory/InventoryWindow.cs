@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class InventoryWindow : MonoBehaviour
+public class InventoryWindow : Singleton<InventoryWindow>
 {
     [Header("GUI Configuration")]
     public int columnCount = 9;
@@ -15,28 +15,53 @@ public class InventoryWindow : MonoBehaviour
     private RectTransform inventoryBackground;
     private Vector2 inventorySize;
 
-    [Header("Inventory")]
-    public static int emptySlotCount;
+	[Header("Tooltip")]
+	public ItemTooltipWindow tooltipWindow;
 
 	void Start ()
     {
         inventorySlots = new List<GameObject>();
+
+		tooltipWindow = GetComponent<ItemTooltipWindow>();
 
         CreateInterface();
 	}
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.O))
-        {
-            BaseItem baseItem = new BaseItem();
-            baseItem.itemID = 1;
-            baseItem.itemName = "Test Item";
-            baseItem.itemIcon = Resources.Load<Sprite>("bloodelf");
-            baseItem.stackSize = 1;
-			baseItem.remainingCharges = 3;
-            AddItem(baseItem);
-        }
+        BaseItem baseItem = new BaseItem();
+		baseItem.itemDescription = "This is a test item.";
+		baseItem.itemRarity = 2;
+		baseItem.itemIcon = Resources.Load<Sprite>("Icons/custom-sword");
+        baseItem.stackSize = 1;
+		baseItem.remainingCharges = 3;
+		
+		if(Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			baseItem.itemID = 1;
+			baseItem.itemName = "Test Item - White";
+			baseItem.itemRarity = 0;
+			baseItem.sellPrice = 100000;
+			AddItem(baseItem);
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			baseItem.itemID = 2;
+			baseItem.itemName = "Test Item - Yellow";
+			baseItem.itemRarity = 1;
+			baseItem.sellPrice = 4893931;
+			AddItem(baseItem);
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			baseItem.itemID = 3;
+			baseItem.itemName = "Test Item - Blue";
+			baseItem.itemRarity = 2;
+			baseItem.sellPrice = 303918493;
+			AddItem(baseItem);
+		}
     }
 
     void CreateInterface()
@@ -59,9 +84,6 @@ public class InventoryWindow : MonoBehaviour
                 CreateInventorySlot(x,y);
             }
         }
-
-        // Store how many slots we start with
-        emptySlotCount = columnCount * rowCount;
     }
 
     void CreateInventorySlot(int x, int y)
@@ -95,7 +117,7 @@ public class InventoryWindow : MonoBehaviour
     public void AddItem(BaseItem item)
     {
 		// Limit Count
-        if(HasTooMany(item))
+        if(HasExceededMaximumNumber(item))
         {
             Debug.Log("Too many instances found!");
             return;
@@ -114,11 +136,7 @@ public class InventoryWindow : MonoBehaviour
         }
 
         // Create New Stack
-        if (emptySlotCount > 0)
-        {
-            AddNewItem(item);
-            return;
-        }
+		AddNewItem(item);
     }
 
     //========================================
@@ -132,7 +150,6 @@ public class InventoryWindow : MonoBehaviour
 		if(emptySlots.Count() > 0)
 		{
 			emptySlots.First().GetComponent<InventorySlot>().AddItem(item);
-			emptySlotCount--;
 		}
     }
 
@@ -140,7 +157,7 @@ public class InventoryWindow : MonoBehaviour
     // Checks if we have too many of the item
     //========================================
 
-    bool HasTooMany(BaseItem item)
+    bool HasExceededMaximumNumber(BaseItem item)
     {
         int itemCount = 0;
         InventorySlot invSlot;
@@ -151,20 +168,14 @@ public class InventoryWindow : MonoBehaviour
             return false;
         }
 
+		IEnumerable<GameObject> itemSlots = inventorySlots.Where(obj => obj.GetComponent<InventorySlot>().GetItem().Equals(item));
+
         // Find instances within inventory
-        foreach (GameObject obj in inventorySlots)
+		foreach (GameObject obj in itemSlots)
         {
             invSlot = obj.GetComponent<InventorySlot>();
 
-            if(invSlot.IsEmpty())
-            {
-                continue;
-            }
-
-            if(invSlot.GetItem().Equals(item))
-            {
-                itemCount += invSlot.GetNumOfItems();
-            }
+            itemCount += invSlot.GetNumOfItems();
         }
 
         if(itemCount >= item.maxCount)

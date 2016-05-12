@@ -49,6 +49,8 @@ public class BaseItem
     public virtual void Use()
     {
         Debug.Log("Use Item");
+
+		remainingCharges = remainingCharges > 0 ? remainingCharges - 1 : -1;
     }
 
     public bool IsUnique()
@@ -61,9 +63,9 @@ public class BaseItem
         return stackSize > 1;
     }
 
-	public bool HasLimitedCharges()
+	public bool HasExpired()
 	{
-		return remainingCharges != -1;
+		return remainingCharges == 0;
 	}
 
     //======================================
