@@ -29,39 +29,12 @@ public class InventoryWindow : Singleton<InventoryWindow>
 
     void Update()
     {
-        BaseItem baseItem = new BaseItem();
-		baseItem.itemDescription = "This is a test item.";
-		baseItem.itemRarity = 2;
-		baseItem.itemIcon = Resources.Load<Sprite>("Icons/custom-sword");
-        baseItem.stackSize = 1;
-		baseItem.remainingCharges = 3;
-		
-		if(Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			baseItem.itemID = 1;
-			baseItem.itemName = "Test Item - White";
-			baseItem.itemRarity = 0;
-			baseItem.sellPrice = 100000;
-			AddItem(baseItem);
-		}
-		
-		if(Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			baseItem.itemID = 2;
-			baseItem.itemName = "Test Item - Yellow";
-			baseItem.itemRarity = 1;
-			baseItem.sellPrice = 4893931;
-			AddItem(baseItem);
-		}
-		
-		if(Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			baseItem.itemID = 3;
-			baseItem.itemName = "Test Item - Blue";
-			baseItem.itemRarity = 2;
-			baseItem.sellPrice = 303918493;
-			AddItem(baseItem);
-		}
+        if(Input.GetKeyDown(KeyCode.Alpha1)) AddItem(ItemDatabase.Instance.itemDB[0]);
+        if(Input.GetKeyDown(KeyCode.Alpha2)) AddItem(ItemDatabase.Instance.itemDB[1]);
+        if(Input.GetKeyDown(KeyCode.Alpha3)) AddItem(ItemDatabase.Instance.itemDB[2]);
+        if(Input.GetKeyDown(KeyCode.Alpha4)) AddItem(ItemDatabase.Instance.itemDB[3]);
+        if(Input.GetKeyDown(KeyCode.Alpha5)) AddItem(ItemDatabase.Instance.itemDB[4]);
+        if(Input.GetKeyDown(KeyCode.Alpha6)) AddItem(ItemDatabase.Instance.itemDB[5]);
     }
 
     void CreateInterface()
@@ -168,7 +141,7 @@ public class InventoryWindow : Singleton<InventoryWindow>
             return false;
         }
 
-		IEnumerable<GameObject> itemSlots = inventorySlots.Where(obj => obj.GetComponent<InventorySlot>().GetItem().Equals(item));
+        IEnumerable<GameObject> itemSlots = inventorySlots.Where(obj => obj.GetComponent<InventorySlot>().ContainsItem(item));
 
         // Find instances within inventory
 		foreach (GameObject obj in itemSlots)

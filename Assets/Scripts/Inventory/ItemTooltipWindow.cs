@@ -24,7 +24,6 @@ public class ItemTooltipWindow : MonoBehaviour
 
 		// Update UI
 		SetItemInfo (selectedItem);
-		SetItemRarity(selectedItem);
 		SetItemSellPrice(selectedItem);
 
 		tooltipObject.SetActive(true);
@@ -39,36 +38,38 @@ public class ItemTooltipWindow : MonoBehaviour
 	void SetItemInfo(BaseItem item)
 	{
 		itemTitle.text = item.itemName;
-		itemDescription.text = item.itemDescription;
-	}
+        switch(item.itemRarity)
+        {
+            case Rarity.Common:
+                itemTitle.color = Color.white;
+                break;
 
-	void SetItemRarity(BaseItem item)
-	{
-		switch(item.itemRarity)
-		{
-			case 0:
-				itemTitle.color = Color.white;
-				break;
-				
-			case 1:
-				itemTitle.color = Color.yellow;
-				break;
-				
-			case 2:
-				itemTitle.color = Color.blue;
-				break;
-		}
+            case Rarity.Rare:
+                itemTitle.color = Color.yellow;
+                break;
+
+            case Rarity.Legendary:
+                itemTitle.color = Color.blue;
+                break;
+        }
+
+        itemDescription.text = "\"" + item.itemDescription + "\"";
 	}
 
 	void SetItemSellPrice(BaseItem item)
 	{
-		int sellPrice = item.sellPrice;
+        int sellPrice, moneyCopper, moneySilver, moneyGold;
 
-		int moneyCopper = sellPrice % 100;
+        // Calculate copper, silver and gold
+		sellPrice = item.sellPrice;
+		moneyCopper = sellPrice % 100;
 		sellPrice = (sellPrice - moneyCopper) / 100;
-		int moneySilver = sellPrice % 100;
-		int moneyGold = (sellPrice - moneySilver) / 100;
+		moneySilver = sellPrice % 100;
+		moneyGold = (sellPrice - moneySilver) / 100;
 
-		itemSellPrice.text = moneyGold + "g " + moneySilver + "s " + moneyCopper;
+        // Output
+        itemSellPrice.text = moneyGold + "<color=yellow>g</color> " +
+                             moneySilver + "<color=silver>g</color> " + 
+                             moneyCopper + "<color=#CD7F32>c</color>";
 	}
 }

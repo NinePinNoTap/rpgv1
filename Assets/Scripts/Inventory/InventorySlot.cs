@@ -116,6 +116,21 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public bool ContainsItem(BaseItem item)
+    {
+        if(IsEmpty())
+        {
+            return false;
+        }
+
+        if(GetItem().Equals(item))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     //===================================================
     // Checks if theres room to add an item to the stack
     //===================================================
