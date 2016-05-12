@@ -8,6 +8,7 @@ public class BaseItem
     public string itemName = "";
     public string itemDescription = "";
 	public Sprite itemIcon;
+	public int itemRarity;
 	public int itemLevel;
 	public ItemMainClass mainClass;         // Main Class = Weapon, Armor etc
 	public ItemSubClass subClass;           // Sub Class = Sword, Helmet etc
@@ -15,6 +16,7 @@ public class BaseItem
     public int sellPrice = 0;
     public int maxCount;                    // How many we can have in our inventory
     public int stackSize;                   // How many can be placed in a single stack
+	public int remainingCharges = -1;					// How many times we can use the item
 
 	public enum ItemMainClass
 	{
@@ -58,6 +60,11 @@ public class BaseItem
     {
         return stackSize > 1;
     }
+
+	public bool HasLimitedCharges()
+	{
+		return remainingCharges != -1;
+	}
 
     //======================================
     // Override

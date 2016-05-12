@@ -33,7 +33,8 @@ public class InventoryWindow : MonoBehaviour
             baseItem.itemID = 1;
             baseItem.itemName = "Test Item";
             baseItem.itemIcon = Resources.Load<Sprite>("bloodelf");
-            baseItem.stackSize = 5;
+            baseItem.stackSize = 1;
+			baseItem.remainingCharges = 3;
             AddItem(baseItem);
         }
     }

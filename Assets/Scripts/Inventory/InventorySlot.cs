@@ -46,19 +46,28 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         if (!IsEmpty())
         {
-            // Use the item and remove from the stack
-            itemStack.Pop().Use();
+			BaseItem item = itemStack.Peek();
 
-            // Update GUI
-            UpdateTextCounter();
-            UpdateItemIcon();
+			item.Use();
+
+			if(item.HasLimitedCharges())
+			{
+				item.remainingCharges--;
+				if(item.remainingCharges == 0)
+				{
+					itemStack.Pop();
+
+					UpdateTextCounter();
+					UpdateItemIcon();
+				}
+			}
         }
     }
 
     void UpdateTextCounter()
     {
         // Update the text if we have more than one
-        if (itemStack.Count >= 1)
+        if (itemStack.Count > 1)
         {
             slotText.text = itemStack.Count.ToString();
         }
@@ -69,7 +78,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
         if (IsEmpty())
         {
-            Debug.Log("Call here");
             InventoryWindow.emptySlotCount++;
         }
     }
