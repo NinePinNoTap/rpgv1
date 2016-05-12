@@ -86,9 +86,19 @@ public class InventoryWindow : MonoBehaviour
         inventorySlots.Add(invSlot);
     }
 
-    public bool AddItem(BaseItem item)
+    //===============================
+    // Adds an item to the inventory
+    //===============================
+
+    public void AddItem(BaseItem item)
     {
         InventorySlot currentSlot;
+
+        if(HasTooMany(item))
+        {
+            Debug.Log("Too many instances found!");
+            return;
+        }
 
         if (item.IsStackable())
         {
@@ -105,8 +115,7 @@ public class InventoryWindow : MonoBehaviour
                 if(currentSlot.CanStack(item))
                 {
                     currentSlot.AddItem(item);
-                    Debug.Log("Found an existing stack!");
-                    return true;
+                    return;
                 }
             }
         }
@@ -115,15 +124,15 @@ public class InventoryWindow : MonoBehaviour
         if (emptySlotCount > 0)
         {
             AddNewItem(item);
-            return true;
+            return;
         }
-
-        Debug.Log("Inventory Full!");
-
-        return false;
     }
 
-    private bool AddNewItem(BaseItem item)
+    //========================================
+    // Adds an item to a fresh stack
+    //========================================
+
+    void AddNewItem(BaseItem item)
     {
         InventorySlot invSlot;
 
@@ -135,9 +144,45 @@ public class InventoryWindow : MonoBehaviour
             {
                 invSlot.AddItem(item);
                 emptySlotCount--;
-                Debug.Log("New Stack Created! Free Slots : " + emptySlotCount);
-                return true;
+                return;
             }
+        }
+    }
+
+    //========================================
+    // Checks if we have too many of the item
+    //========================================
+
+    bool HasTooMany(BaseItem item)
+    {
+        int itemCount = 0;
+        InventorySlot invSlot;
+
+        // Has No Limit
+        if(item.maxCount == 0)
+        {
+            return false;
+        }
+
+        // Find instances within inventory
+        foreach (GameObject obj in inventorySlots)
+        {
+            invSlot = obj.GetComponent<InventorySlot>();
+
+            if(invSlot.IsEmpty())
+            {
+                continue;
+            }
+
+            if(invSlot.GetItem().Equals(item))
+            {
+                itemCount += invSlot.GetNumOfItems();
+            }
+        }
+
+        if(itemCount >= item.maxCount)
+        {
+            return true;
         }
 
         return false;

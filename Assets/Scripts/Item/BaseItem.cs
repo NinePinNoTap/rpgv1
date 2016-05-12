@@ -58,4 +58,21 @@ public class BaseItem
     {
         return stackSize > 1;
     }
+
+    //======================================
+    // Override
+    //======================================
+
+    public override bool Equals(object obj)
+    {
+        if(obj == null)
+        {
+            return false;
+        }
+
+        BaseItem otherItem = obj as BaseItem;
+
+        return itemID.Equals(otherItem.itemID);
+    }
+
 }

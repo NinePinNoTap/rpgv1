@@ -160,6 +160,11 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         return false;
     }
 
+    public int GetNumOfItems()
+    {
+        return itemStack.Count;
+    }
+
     //===========================
     // Using an item in the slot
     //===========================
