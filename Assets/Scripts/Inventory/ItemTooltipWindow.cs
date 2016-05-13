@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Config;
 
 public class ItemTooltipWindow : MonoBehaviour
 {
@@ -38,19 +39,31 @@ public class ItemTooltipWindow : MonoBehaviour
 	void SetItemInfo(BaseItem item)
 	{
 		itemTitle.text = item.itemName;
-        switch(item.itemRarity)
-        {
-            case Rarity.Common:
-                itemTitle.color = Color.white;
-                break;
+        switch(item.itemQuality)
+		{
+			case ItemQuality.Basic:
+				itemTitle.color = new Color(0.5f, 0.5f, 0.5f);
+				break;
 
-            case Rarity.Rare:
-                itemTitle.color = Color.yellow;
-                break;
+			case ItemQuality.Regular:
+				itemTitle.color = new Color(1, 1, 1);
+				break;
 
-            case Rarity.Legendary:
-                itemTitle.color = Color.blue;
-                break;
+			case ItemQuality.Inconsistent:
+				itemTitle.color = new Color(1, 1, 0.43f);
+				break;
+
+			case ItemQuality.Rare:
+				itemTitle.color = new Color(0.54f, 0.54f, 1);
+				break;
+
+			case ItemQuality.Majestic:
+				itemTitle.color = new Color(0, 0, 1);
+				break;
+
+			case ItemQuality.Legendary:
+				itemTitle.color = new Color(1.0f, 0.25f, 0.25f);
+				break;
         }
 
         itemDescription.text = "\"" + item.itemDescription + "\"";
@@ -68,8 +81,8 @@ public class ItemTooltipWindow : MonoBehaviour
 		moneyGold = (sellPrice - moneySilver) / 100;
 
         // Output
-        itemSellPrice.text = moneyGold + "<color=yellow>g</color> " +
-                             moneySilver + "<color=silver>g</color> " + 
+		itemSellPrice.text = moneyGold + "<color=yellow>g</color> " +
+                             moneySilver + "<color=silver>s</color> " + 
                              moneyCopper + "<color=#CD7F32>c</color>";
 	}
 }

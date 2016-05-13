@@ -9,7 +9,7 @@ public class Consumable : AttributeItem
     {
         // Execute spell
 
-        remainingCharges = remainingCharges > 0 ? remainingCharges - 1 : -1;
+        spellCharges = spellCharges > 0 ? spellCharges - 1 : -1;
     }
 }
 

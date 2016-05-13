@@ -1,60 +1,36 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
-
-
-public enum Rarity { Common, Rare, Legendary };
-public enum Weilding { OneHanded, TwoHanded };
+using Config;
 
 [System.Serializable]
 public class BaseItem
 {
-	public int itemID;
-    public string itemName = "";
-    public string itemDescription = "";     
-	public Sprite itemIcon;                 // Icon to display in inventory
-	public Rarity itemRarity;                  // How rare the item is
-	public int itemLevel;                   // The level of the item
-    public int requiredLevel;               // Requires the player to be of a certain level
-	public ItemMainClass mainClass;         // Main Class = Weapon, Armor etc
-	public ItemSubClass subClass;           // Sub Class = Sword, Helmet etc
-    public int buyPrice = 0;                // How much it costs to buy from vendor
-    public int sellPrice = 0;               // How much you get by selling to vendor
-    public int maxCount;                    // How many we can have in our inventory
-    public int stackSize;                   // How many can be placed in a single stack
-	public int remainingCharges = -1;		// How many times we can use the item
-
-	public enum ItemMainClass
-	{
-		Armor,
-		Weapon,
-		Consumable
-	}
-
-	public enum ItemSubClass
-	{
-		// Armor
-		Helm,
-		Shoulder,
-		Chest,
-		Wrist,
-		Glove,
-		Belt,
-		Leg,
-		Boot,
-
-		// Weapon
-		Axe,
-		Mace,
-		Sword,
-
-		// Consumable
-		Potion
-	}
+	public int itemID;										// Unique identifier
+	public string itemName = "<color=red>ERROR!</color>";	// Name of the item
+    public string itemDescription = "";     				// Lore text or description
+	public Sprite itemIcon;                 				// Icon to display in inventory
+	public ItemQuality itemQuality;         				// How rare the item is
+	public ItemClass mainClass;         					// Weapon, Armor, Consumable
+	public ItemSubClass subClass;           				// Sword, Helmet, Potion
+	public ItemSlot itemSlot;								// Slot in the inventory it is put into
+	public int itemLevel;                   				// The level of the item
+	public int requiredLevel;               				// Requires the player to be of a certain level
+	public int buyPrice = 0;                				// How much it costs to buy from vendor
+	public int sellPrice = 0;               				// How much you get by selling to vendor
+	public int maxCount = 0;                				// How many we can have in our inventory
+	public int stackSize = 1;               				// How many can be placed in a single stack
+	public int maxDurability = -1;							// How much durability the item has
+	public int spellID = -1;								// On use spell
+	public int spellCharges = -1;							// How many times we can use the item
 
     public virtual void Use()
     {
         Debug.Log("Use Item");
     }
+	
+	//======================================
+	// Getters
+	//======================================
 
     public bool IsUnique()
     {
@@ -68,7 +44,7 @@ public class BaseItem
 
 	public bool HasExpired()
 	{
-		return remainingCharges == 0;
+		return spellCharges == 0;
 	}
 
     //======================================
@@ -86,5 +62,4 @@ public class BaseItem
 
         return itemID.Equals(otherItem.itemID);
     }
-
 }
