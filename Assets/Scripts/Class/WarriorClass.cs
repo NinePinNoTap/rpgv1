@@ -1,23 +1,24 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using CharacterConfig;
 
-public class WarriorClass : BaseCharacterClass
+public class WarriorClass : BaseClass
 {
     public WarriorClass()
     {
         // Class Information
-        Name = "Warrior";
-        Description = "A strong and powerful hero who is skilled in combat.";
+        className = "Warrior";
+        classDescription = "A strong and powerful hero who is skilled in combat.";
 
         // Attributes
-        BaseStrength = 23;
-        BaseAgility = 20;
-        BaseIntelligence = 20;
-        BaseStamina = 22;
+        baseStrength = 23;
+        baseAgility = 20;
+        baseIntelligence = 20;
+        baseStamina = 22;
 
         // Resources
-        BaseHealth = 60;
-        BaseEnergy = 0;
-        BaseResource = ResourceType.Rage;
+        baseHealth = 60;
+        baseResourceAmount = 0;
+        baseResourceType = GameResource.Rage;
     }
 }

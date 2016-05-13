@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public static class ExperienceToLevel
+public static class LevelSystem
 {
-	private static List<int> RequiredExp = new List<int>()
+	public static int startLevel = 1;
+	public static int maxLevel = 30;
+	
+	// TODO
+	// Feed from external fire
+	private static List<int> requiredExp = new List<int> ()
 	{
 		400,
 		900,
@@ -36,14 +41,10 @@ public static class ExperienceToLevel
 		29000,
 		31000
 	};
-
-	public static int GetRequiredXP(int level)
+	
+	public static int GetRequiredXP (int level)
 	{
-		return RequiredExp[level-1];
-	}
-
-	public static int GetMaxLevel()
-	{
-		return RequiredExp.Count;
+		return requiredExp [level - 1];
 	}
 }
+

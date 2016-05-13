@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using Config;
+using ItemConfig;
 
 [System.Serializable]
 public class BaseItem

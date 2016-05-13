@@ -1,23 +1,24 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using CharacterConfig;
 
-public class MageClass : BaseCharacterClass
+public class MageClass : BaseClass
 {
     public MageClass()
     {
         // Class Information
-        Name = "Mage";
-        Description = "A hero who can weild powerful spells.";
+        className = "Mage";
+        classDescription = "A hero who can weild powerful spells.";
 
         // Attributes
-        BaseStrength = 20;
-        BaseAgility = 20;
-        BaseIntelligence = 23;
-        BaseStamina = 20;
+        baseStrength = 20;
+        baseAgility = 20;
+        baseIntelligence = 23;
+        baseStamina = 20;
 
         // Resources
-        BaseHealth = 50;
-        BaseEnergy = 100;
-        BaseResource = ResourceType.Mana;
+        baseHealth = 50;
+        baseResourceAmount = 100;
+        baseResourceType = GameResource.Mana;
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Config
+namespace ItemConfig
 {
 	//===============================
 	// Inventory Slot ID

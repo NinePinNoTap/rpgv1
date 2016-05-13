@@ -1,24 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public enum CharacterGender
-{
-    Male = 0,
-    Female = 1
-}
+using CharacterConfig;
 
 [System.Serializable]
 public class Character
 {
-    [Header("Information")]
-	public string Name;
-    public CharacterGender Gender;
-    public BaseCharacterClass Class;
-
-	[Header("Levelling")]
-	public int Level;
-	public int CurrentLevelExperience;
-	public int RequiredLevelExperience;
+	[Header("Information")]
+	public string characterName;
+	public int characterLevel;
+	public BaseClass characterClass;
+	public GameGender characterGender;
+	public GameRace characterRace;
+	public int currentExperience;
+	public int requiredExperience;
 
     [Header("Attributes")]
     public int Strength = 0;
@@ -27,33 +21,36 @@ public class Character
 
     public Character()
     {
-        Name = "";
-        Class = null;
-        Level = 1;
-		CurrentLevelExperience = 0;
-		RequiredLevelExperience = ExperienceToLevel.GetRequiredXP(Level);
+		characterName = "Not Set";
+		characterLevel = LevelSystem.startLevel;
+		characterClass = null;
+		characterGender = GameGender.Male;
+		characterRace = GameRace.Human;
+		currentExperience = 0;
+		requiredExperience = LevelSystem.GetRequiredXP(characterLevel);
     }
 
-	public void AddExperience(int value)
+	public void GrantExperience(int value)
 	{
 		// Don't grant experience at max level
-		if(Level == ExperienceToLevel.GetMaxLevel() + 1)
+		if(characterLevel == LevelSystem.maxLevel)
 		{
 			return;
 		}
 
 		// Add Experience
-		CurrentLevelExperience += value;
+		currentExperience += value;
 
 		// Level Up
-		if(CurrentLevelExperience >= RequiredLevelExperience)
+		if(currentExperience >= requiredExperience)
 		{
-			Debug.Log ("Level Up!");
-			Level++;
-			Level = Mathf.Clamp(Level, 0, ExperienceToLevel.GetMaxLevel() + 1);
+			Debug.Log (characterName + " levelled Up!");
 
-			CurrentLevelExperience = 0;
-			RequiredLevelExperience = ExperienceToLevel.GetRequiredXP(Level);
+			characterLevel++;
+			characterLevel = Mathf.Clamp(characterLevel, 0, LevelSystem.maxLevel);
+
+			currentExperience = 0;
+			requiredExperience = LevelSystem.GetRequiredXP(characterLevel);
 		}
 	}
 }

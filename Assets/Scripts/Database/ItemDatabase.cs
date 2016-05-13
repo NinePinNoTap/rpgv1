@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Text;
-using Config;
+using ItemConfig;
 
 public class ItemDatabase : Singleton<ItemDatabase>
 {
@@ -12,44 +12,17 @@ public class ItemDatabase : Singleton<ItemDatabase>
 
     void Start()
     {
-        // Load Items
-        Load("assets/Resources/itemdatabase.txt");
+		List<string[]> fileStorage = new List<string[]>();
+
+        FileLoader.Load("assets/Resources/itemdatabase.txt", ref fileStorage);
+
+		foreach(string[] itemInfo in fileStorage)
+		{
+			LoadItem (itemInfo);
+		}
     }
 
-    private bool Load(string fileName)
-    {
-        try
-        {
-            string line;
-            StreamReader theReader = new StreamReader(fileName, Encoding.Default);
-            using (theReader)
-            {
-                do
-                {
-                    line = theReader.ReadLine();
-
-                    if (line != null)
-                    {
-                        string[] entries = line.Split(',');
-                        if (entries.Length > 0)
-                        {
-                            LoadItem(entries);
-                        }
-                    }
-                }
-                while (line != null);
-
-                theReader.Close();
-
-                return true;
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("{0}\n", e.Message);
-            return false;
-        }
-    }
+    
 
     void LoadItem(string[] itemInfo)
     {

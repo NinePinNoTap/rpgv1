@@ -1,25 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
-
-public enum ClassType
-{
-    Hunter = 0,
-    Mage = 1,
-    Warrior = 2
-};
+using CharacterConfig;
 
 public class CharacterCreation : MonoBehaviour
 {
-    public GameObject MaleObj;
-    public GameObject FemaleObj;
-    public Character CharacterInProgress;
-    private ClassType SelectedClass;
-    private CharacterGender SelectedGender;
+	[Header("Prefabs")]
+    public GameObject maleCharacter;
+    public GameObject femaleCharacter;
+
+	[Header("Character Studio")]
+	public int maximumNameLength = 10;
+	public Character inProgress;
+
+	private string selectedName;
+	private GameGender selectedGender;
+    private GameClass selectedClass;
+	private GameRace selectedRace;
 
 	void Start ()
 	{
-        CharacterInProgress = new Character();
+        inProgress = new Character();
 	}
 
     void OnGUI()
@@ -32,41 +33,32 @@ public class CharacterCreation : MonoBehaviour
         //================
 
         GUILayout.Label("Character Name");
-        CharacterInProgress.Name = GUILayout.TextArea(CharacterInProgress.Name, GUILayout.Width(300));
-
-        // Format Input
-        CharacterInProgress.Name = Regex.Replace(CharacterInProgress.Name, @"[^a-zA-Z]", "");
-        if(CharacterInProgress.Name.Length > 10)
-        {
-            CharacterInProgress.Name = CharacterInProgress.Name.Substring(0, 10);
-        }
+		selectedName = GUILayout.TextArea(selectedName, GUILayout.Width(300));
+		FormatName();
 
         GUILayout.Space(15);
 
-        GUILayout.BeginHorizontal();
+		GUILayout.BeginHorizontal();
+		
+		//==================
+		// Class Selection
+		//==================
+		
+		GUILayout.BeginVertical();
+		
+		selectedClass = (GameClass)GUILayout.SelectionGrid((int)selectedClass, new string[] { "Hunter", "Mage", "Warrior" }, 1);
+		
+		GUILayout.EndVertical();
+		
+		//==================
+		// Race Selection
+		//==================
+		
+		GUILayout.BeginVertical();
+		
+		selectedRace = (GameRace)GUILayout.SelectionGrid((int)selectedRace, new string[] { "Human" }, 1);
 
-        //==================
-        // Class Selection
-        //==================
-
-        GUILayout.BeginVertical();
-
-        SelectedClass = (ClassType)GUILayout.SelectionGrid((int)SelectedClass, new string[] { "Hunter", "Mage", "Warrior" }, 1);
-
-        switch(SelectedClass)
-        {
-            case ClassType.Hunter:
-                CharacterInProgress.Class = new HunterClass();
-                break;
-            case ClassType.Mage:
-                CharacterInProgress.Class = new MageClass();
-                break;
-            case ClassType.Warrior:
-                CharacterInProgress.Class = new WarriorClass();
-                break;
-        }
-
-        GUILayout.EndVertical();
+		GUILayout.EndVertical();
 
         //==================
         // Gender Selection
@@ -74,21 +66,23 @@ public class CharacterCreation : MonoBehaviour
 
         GUILayout.BeginVertical();
 
-        SelectedGender = (CharacterGender)GUILayout.SelectionGrid((int)SelectedGender, new string[] { "Male", "Female" }, 1);
+        selectedGender = (GameGender)GUILayout.SelectionGrid((int)selectedGender, new string[] { "Male", "Female" }, 1);
 
-        switch(SelectedGender)
+        switch(selectedGender)
         {
-            case CharacterGender.Male:
-                CharacterInProgress.Gender = CharacterGender.Male;
-                MaleObj.SetActive(true);
-                FemaleObj.SetActive(false);
+            case GameGender.Male:
+                maleCharacter.SetActive(true);
+                femaleCharacter.SetActive(false);
                 break;
 
-            case CharacterGender.Female:
-                CharacterInProgress.Gender = CharacterGender.Female;
-                MaleObj.SetActive(false);
-                FemaleObj.SetActive(true);
+            case GameGender.Female:
+                maleCharacter.SetActive(false);
+                femaleCharacter.SetActive(true);
                 break;
+
+			case GameGender.Other:
+				// TODO
+				break;
         }
 
         GUILayout.EndVertical();
@@ -102,7 +96,7 @@ public class CharacterCreation : MonoBehaviour
 
         if(GUILayout.Button("Create", GUILayout.Width(100)))
         {
-            if(CharacterInProgress.Name.Length > 3)
+            if(inProgress.characterName.Length > 3)
             {
                 GenerateCharacter();
             }
@@ -118,6 +112,43 @@ public class CharacterCreation : MonoBehaviour
 
     void GenerateCharacter()
     {
-        Debug.Log("Generated Character : " + CharacterInProgress.Name + "(Level " + CharacterInProgress.Level + " " + CharacterInProgress.Class.Name);
+		inProgress.characterName = selectedName;
+
+		switch(selectedClass)
+		{
+			case GameClass.Hunter:
+				inProgress.characterClass = new HunterClass();
+				break;
+
+			case GameClass.Mage:
+				inProgress.characterClass = new MageClass();
+				break;
+
+			case GameClass.Warrior:
+				inProgress.characterClass = new WarriorClass();
+				break;
+		}
+		
+		switch(selectedGender)
+		{
+			case GameGender.Male:
+				inProgress.characterGender = GameGender.Male;
+				break;
+				
+			case GameGender.Female:
+				inProgress.characterGender = GameGender.Female;
+				break;
+		}
+
+        Debug.Log("Generated Character : " + inProgress.characterName + "(Level " + inProgress.characterLevel + " " + inProgress.characterClass.className);
     }
+
+	void FormatName()
+	{
+		selectedName = Regex.Replace(selectedName, @"[^a-zA-Z]", "");
+		if(selectedName.Length > maximumNameLength)
+		{
+			selectedName = selectedName.Substring(0, maximumNameLength);
+		}
+	}
 }

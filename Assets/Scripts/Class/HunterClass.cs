@@ -1,23 +1,24 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using CharacterConfig;
 
-public class HunterClass : BaseCharacterClass
+public class HunterClass : BaseClass
 {
     public HunterClass()
     {
         // Class Information
-        Name = "Hunter";
-        Description = "A master of woodcraft and beast mastery.";
+        className = "Hunter";
+        classDescription = "A master of woodcraft and beast mastery.";
 
         // Attributes
-        BaseStrength = 20;
-        BaseAgility = 23;
-        BaseIntelligence = 20;
-        BaseStamina = 21;
+        baseStrength = 20;
+        baseAgility = 23;
+        baseIntelligence = 20;
+        baseStamina = 21;
 
         // Resources
-        BaseHealth = 60;
-        BaseEnergy = 100;
-        BaseResource = ResourceType.Energy;
+        baseHealth = 60;
+        baseResourceAmount = 100;
+        baseResourceType = GameResource.Energy;
     }
 }

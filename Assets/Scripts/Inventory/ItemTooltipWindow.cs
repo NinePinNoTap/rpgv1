@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using Config;
+using ItemConfig;
 
 public class ItemTooltipWindow : MonoBehaviour
 {
@@ -32,13 +32,13 @@ public class ItemTooltipWindow : MonoBehaviour
 
 	public void HideTooltip()
 	{
-		if(tooltipObject)
-			tooltipObject.SetActive(false);
+		tooltipObject.SetActive(false);
 	}
 
 	void SetItemInfo(BaseItem item)
 	{
 		itemTitle.text = item.itemName;
+
         switch(item.itemQuality)
 		{
 			case ItemQuality.Basic:
