@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using ItemConfig;
 
-public class ItemTooltipWindow : MonoBehaviour
+public class ItemTooltip : MonoBehaviour
 {
 	public GameObject tooltipObject;
 	public Text itemTitle;
@@ -37,7 +37,7 @@ public class ItemTooltipWindow : MonoBehaviour
 
 	void SetItemInfo(BaseItem item)
 	{
-		itemTitle.text = item.itemName;
+		itemTitle.text = item.name;
 
         switch(item.itemQuality)
 		{
@@ -66,7 +66,7 @@ public class ItemTooltipWindow : MonoBehaviour
 				break;
         }
 
-        itemDescription.text = "\"" + item.itemDescription + "\"";
+        itemDescription.text = "\"" + item.description + "\"";
 	}
 
 	void SetItemSellPrice(BaseItem item)

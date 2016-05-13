@@ -1,24 +1,19 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 [System.Serializable]
-public class InventorySlot : MonoBehaviour, IPointerClickHandler
+public class InventorySlot : BaseInterfaceSlot
 {
-    [Header("Configuration")]
-    public Text slotText;
-    public Image slotIcon;
-    public Sprite slotEmpty;
-    public float slotTextScale = 0.5f;
-    public Stack<BaseItem> itemStack = new Stack<BaseItem>();
-    public List<BaseItem> tempItems = new List<BaseItem>();
-
 	void Start ()
     {
         RectTransform slotRect;
         RectTransform textRect;
+
+		// Create stack to store item
+		slotStack = new Stack<BaseUsable>();
 
         // Configure the text
         slotRect = GetComponent<RectTransform>();
@@ -32,20 +27,20 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         slotText.text = "";
 	}
 
-    void UseItem()
-    {
+    public override void UseSlot ()
+	{
         if (!IsEmpty())
         {
-			BaseItem item = itemStack.Peek();
+			BaseItem item = slotStack.Peek() as BaseItem;
 
 			item.Use();
 
 			if(item.HasExpired())
 			{
-				itemStack.Pop();
+				slotStack.Pop();
 
 				UpdateTextCounter();
-				UpdateItemIcon();
+				UpdateSlotIcon(GetItem ().icon);
 			}
         }
     }
@@ -53,27 +48,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     void UpdateTextCounter()
     {
         // Update the text if we have more than one
-        if (itemStack.Count > 1)
+        if (slotStack.Count > 1)
         {
-            slotText.text = itemStack.Count.ToString();
+            slotText.text = slotStack.Count.ToString();
         }
         else
         {
             slotText.text = "";
-        }
-    }
-
-    void UpdateItemIcon()
-    {
-        if(IsEmpty())
-        {
-			slotIcon.sprite = slotEmpty;
-			slotIcon.overrideSprite = slotEmpty;
-        }
-        else
-        {
-            slotIcon.sprite = GetItem().itemIcon;
-            slotIcon.overrideSprite = GetItem().itemIcon;
         }
     }
 
@@ -83,20 +64,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public void AddItem(BaseItem item)
     {
-        itemStack.Push(item);
+        slotStack.Push(item);
 
         UpdateTextCounter();
-        UpdateItemIcon();
-    }
-
-    //==============================
-    // Checks if the stack is empty
-    //==============================
-
-    public bool IsEmpty()
-    {
-        // Check if the slot is empty
-        return itemStack.Count == 0;
+		UpdateSlotIcon(item.icon);
     }
 
     //=================================
@@ -105,14 +76,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public BaseItem GetItem()
     {
-        if(itemStack.Count == 0)
+        if(slotStack.Count == 0)
         {
             return null;
         }
         else
         {
             // Return the type of item we are storing in this slot
-            return itemStack.Peek();
+			return slotStack.Peek() as BaseItem;
         }
     }
 
@@ -137,7 +108,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public bool CanStack()
     {
-        return itemStack.Count < GetItem().stackSize;
+        return slotStack.Count < GetItem().stackSize;
     }
 
     //================================================
@@ -171,38 +142,25 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public int GetNumOfItems()
     {
-        return itemStack.Count;
-    }
-
-    //===========================
-    // Using an item in the slot
-    //===========================
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            UseItem();
-        }
+        return slotStack.Count;
     }
 
 	//=====================
 	// Show / Hide Tooltip 
 	//=====================
 
-	public void ShowTooltip()
+	public override void ShowTooltip()
 	{
 		if(IsEmpty ())
 		{
-			Debug.Log ("No Item in Slot");
 			return;
 		}
 
-		InventoryWindow.Instance.tooltipWindow.ShowTooltip(this);
+		//Inventory.Instance.tooltipWindow.ShowTooltip(this);
 	}
 
-	public void HideTooltip()
+	public override void HideTooltip()
 	{
-		InventoryWindow.Instance.tooltipWindow.HideTooltip();
+		//Inventory.Instance.tooltipWindow.HideTooltip();
 	}
 }

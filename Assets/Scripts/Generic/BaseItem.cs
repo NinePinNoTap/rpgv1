@@ -3,12 +3,8 @@ using System.Collections;
 using ItemConfig;
 
 [System.Serializable]
-public class BaseItem
+public class BaseItem : BaseUsable
 {
-	public int itemID;										// Unique identifier
-	public string itemName = "<color=red>ERROR!</color>";	// Name of the item
-    public string itemDescription = "";     				// Lore text or description
-	public Sprite itemIcon;                 				// Icon to display in inventory
 	public ItemQuality itemQuality;         				// How rare the item is
 	public ItemClass mainClass;         					// Weapon, Armor, Consumable
 	public ItemSubClass subClass;           				// Sword, Helmet, Potion
@@ -20,8 +16,6 @@ public class BaseItem
 	public int maxCount = 0;                				// How many we can have in our inventory
 	public int stackSize = 1;               				// How many can be placed in a single stack
 	public int maxDurability = -1;							// How much durability the item has
-	public int spellID = -1;								// On use spell
-	public int spellCharges = -1;							// How many times we can use the item
 
     public virtual void Use()
     {
@@ -60,6 +54,6 @@ public class BaseItem
 
         BaseItem otherItem = obj as BaseItem;
 
-        return itemID.Equals(otherItem.itemID);
+        return ID.Equals(otherItem.ID);
     }
 }

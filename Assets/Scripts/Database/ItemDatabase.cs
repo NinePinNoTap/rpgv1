@@ -30,10 +30,10 @@ public class ItemDatabase : Singleton<ItemDatabase>
 
         loadItem = new BaseItem();
 
-        loadItem.itemID = int.Parse(itemInfo[0]);
-        loadItem.itemName = itemInfo[1];
-        loadItem.itemDescription = itemInfo[2];
-        loadItem.itemIcon = Resources.Load<Sprite>("Icons/" + itemInfo[3]);
+        loadItem.ID = int.Parse(itemInfo[0]);
+        loadItem.name = itemInfo[1];
+        loadItem.description = itemInfo[2];
+        loadItem.icon = Resources.Load<Sprite>("Icons/" + itemInfo[3]);
         loadItem.itemQuality = (ItemQuality)Enum.Parse(typeof(ItemQuality), itemInfo[4]);
         loadItem.itemLevel = int.Parse(itemInfo[5]);
         loadItem.requiredLevel = int.Parse(itemInfo[6]);
