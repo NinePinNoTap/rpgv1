@@ -22,8 +22,6 @@ public class ItemDatabase : Singleton<ItemDatabase>
 		}
     }
 
-    
-
     void LoadItem(string[] itemInfo)
     {
         BaseItem loadItem;

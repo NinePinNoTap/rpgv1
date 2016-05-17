@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BaseInterfacePanel : Singleton<BaseInterfacePanel>
+public class BaseInterfacePanel : MonoBehaviour
 {
 	[Header("Configuration")]
 	public Vector3 baseOffset = new Vector3(0,0,0);
