@@ -1,21 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class ActionBarSlot : BaseInterfaceSlot
 {
 	void Start ()
-	{
-		RectTransform slotRect;
-		RectTransform textRect;
-		
+	{		
 		// Create stack to store item
 		slotStack = new Stack<BaseUsable>();
-		
-		// Configure the text
-		slotRect = GetComponent<RectTransform>();
-		textRect = slotText.GetComponent<RectTransform>();
-		
+	
 		// Text Counter
 		slotText.text = "";
 	}
@@ -35,6 +29,5 @@ public class ActionBarSlot : BaseInterfaceSlot
 		slotStack.Push(ability);
 
 		UpdateSlotIcon(ability.icon);
-	}
+  	}
 }
-

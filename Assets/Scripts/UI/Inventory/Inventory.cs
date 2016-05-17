@@ -7,8 +7,6 @@ public class Inventory : BaseInterfacePanel
 {
 	void Start ()
     {
-		tooltipWindow = GetComponent<ItemTooltip>();
-
 		CreatePanel();
 		CreateSlots();
 	}

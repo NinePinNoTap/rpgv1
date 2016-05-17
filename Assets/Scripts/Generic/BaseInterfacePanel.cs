@@ -15,9 +15,6 @@ public class BaseInterfacePanel : MonoBehaviour
 	protected RectTransform panelBackground;
 	protected Vector2 panelSize;
 
-	[Header("Tooltip")]
-	public ItemTooltip tooltipWindow;
-
 	protected void CreatePanel()
 	{
 		// Calculate size of inventory window

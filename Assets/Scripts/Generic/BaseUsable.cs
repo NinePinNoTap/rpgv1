@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class BaseUsable : MonoBehaviour
 {
@@ -13,6 +14,5 @@ public class BaseUsable : MonoBehaviour
 	public virtual void Use()
 	{
 		Debug.Log ("Default Use");
-	}
+  	}
 }
-

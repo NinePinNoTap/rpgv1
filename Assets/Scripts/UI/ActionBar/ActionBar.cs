@@ -13,9 +13,9 @@ public class ActionBar : BaseInterfacePanel
 
 	void Update ()
 	{
-		if(Input.GetKeyDown(KeyCode.Alpha1))
+		if(Input.GetKeyDown(KeyCode.Alpha7))
 		{
-			BaseAbility baseAbility = new BaseAbility();
+            BaseAbility baseAbility = new BaseAbility();
 			baseAbility.icon = Resources.Load<Sprite>("custom-spell");
 			baseAbility.spellMinDamage = 5;
 			baseAbility.spellMaxDamage = 10;
@@ -35,4 +35,3 @@ public class ActionBar : BaseInterfacePanel
 		}
 	}
 }
-

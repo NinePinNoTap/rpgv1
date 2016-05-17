@@ -156,11 +156,20 @@ public class InventorySlot : BaseInterfaceSlot
 			return;
 		}
 
-		//Inventory.Instance.tooltipWindow.ShowTooltip(this);
+        UIManager.Instance.tooltip.ClearTooltip();
+        
+        UIManager.Instance.tooltip.AddText(GetItem().name, 24, Color.blue);
+        UIManager.Instance.tooltip.AddText(GetItem().mainClass.ToString(), 16, Color.green);
+        UIManager.Instance.tooltip.AddText(GetItem().subClass.ToString(), 16, Color.green);
+        UIManager.Instance.tooltip.AddText(GetItem().requiredLevel.ToString(), 16, Color.red);
+        UIManager.Instance.tooltip.AddText(TextFormat.Format(GetItem().description, 16, Color.yellow, false, true));
+        UIManager.Instance.tooltip.Build();
+
+        UIManager.Instance.tooltip.ShowTooltip();
 	}
 
 	public override void HideTooltip()
 	{
-		//Inventory.Instance.tooltipWindow.HideTooltip();
+        UIManager.Instance.tooltip.HideTooltip();
 	}
 }
