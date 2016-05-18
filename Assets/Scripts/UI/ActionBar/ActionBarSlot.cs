@@ -18,16 +18,22 @@ public class ActionBarSlot : BaseInterfaceSlot
 	{
 		if (!IsEmpty())
 		{
-			BaseAbility ability = slotStack.Peek() as BaseAbility;
-			
-			ability.Use();
+            if(slotStack.Peek().GetType().Equals(typeof(BaseAbility)))
+            {
+                BaseAbility ability = slotStack.Peek() as BaseAbility;
+                
+                ability.Use();
+            }
+            else if(slotStack.Peek().GetType().Equals(typeof(BaseItem)))
+            {
+                BaseItem ability = slotStack.Peek() as BaseItem;
+                
+                ability.Use();
+            }
+            else
+            {
+                slotStack.Peek().Use();
+            }
 		}
-	}
-
-	public void AddAbility(BaseAbility ability)
-	{
-		slotStack.Push(ability);
-
-		UpdateSlotIcon(ability.icon);
   	}
 }

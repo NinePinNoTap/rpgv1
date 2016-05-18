@@ -19,7 +19,7 @@ public class BaseItem : BaseUsable
 
     public virtual void Use()
     {
-        Debug.Log("Use Item");
+        Debug.Log(name + " - Use Item");
     }
 	
 	//======================================

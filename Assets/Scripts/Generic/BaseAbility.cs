@@ -16,6 +16,6 @@ public class BaseAbility : BaseUsable
 
 	public virtual void Use()
 	{
-		Debug.Log("Use Ability");
+		Debug.Log(name + " - Use Ability");
     }
 }

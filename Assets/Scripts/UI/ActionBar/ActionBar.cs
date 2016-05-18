@@ -16,6 +16,7 @@ public class ActionBar : BaseInterfacePanel
 		if(Input.GetKeyDown(KeyCode.Alpha7))
 		{
             BaseAbility baseAbility = new BaseAbility();
+            baseAbility.name = "Fire Spell";
 			baseAbility.icon = Resources.Load<Sprite>("custom-spell");
 			baseAbility.spellMinDamage = 5;
 			baseAbility.spellMaxDamage = 10;
@@ -23,6 +24,14 @@ public class ActionBar : BaseInterfacePanel
 			baseAbility.spellCooldown = 3;
 			AddAbility(baseAbility);
 		}
+
+        if(Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            BaseItem item = ItemDatabase.Instance.itemDB[0];
+            item.spellCharges = 1;
+
+            AddItem(item);
+        }
 	}
 
 	public void AddAbility(BaseAbility ability)
@@ -34,4 +43,14 @@ public class ActionBar : BaseInterfacePanel
 			emptySlots.First().GetComponent<ActionBarSlot>().AddAbility(ability);
 		}
 	}
+
+    public void AddItem(BaseItem item)
+    {
+        IEnumerable<GameObject> emptySlots = panelSlots.Where(obj => obj.GetComponent<ActionBarSlot>().IsEmpty());
+        
+        if(emptySlots.Count() > 0)
+        {
+            emptySlots.First().GetComponent<ActionBarSlot>().AddItem(item);
+        }
+    }
 }

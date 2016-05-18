@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class BaseUsable : MonoBehaviour
+public class BaseUsable
 {
 	public int ID;										// Unique identifier
 	public string name = "<color=red>ERROR!</color>";	// Name of the item

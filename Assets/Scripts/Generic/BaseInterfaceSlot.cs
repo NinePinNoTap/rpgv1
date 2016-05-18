@@ -15,26 +15,50 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 	[Header("Information")]
 	public Stack<BaseUsable> slotStack;
 
+    //===================================
+    // Base Use Function for Inheritance
+    //===================================
+
 	public virtual void UseSlot()
 	{
 		Debug.Log ("Slot Clicked");
 	}
+
+    //=================
+    // Slot Management
+    //=================
+
+    public void AddAbility(BaseAbility ability)
+    {
+        slotStack.Push(ability);
+        
+        UpdateSlotIcon(ability.icon);
+    }
+    
+    public void AddItem(BaseItem item)
+    {
+        slotStack.Push(item);
+        
+        UpdateSlotIcon(item.icon);
+    }
 	
 	//==============================
 	// Updates the Icon Sprite
 	//==============================
 
-	protected void UpdateSlotIcon(Sprite itemIcon)
+	protected void UpdateSlotIcon(Sprite useableIcon)
 	{
 		if(IsEmpty())
-		{
+        {
+            Debug.Log("Using empty");
 			slotIcon.sprite = slotEmpty;
 			slotIcon.overrideSprite = slotEmpty;
 		}
 		else
-		{
-			slotIcon.sprite = itemIcon;
-			slotIcon.overrideSprite = itemIcon;
+        {
+            Debug.Log("Using sprite");
+			slotIcon.sprite = useableIcon;
+			slotIcon.overrideSprite = useableIcon;
 		}
 	}
 	
