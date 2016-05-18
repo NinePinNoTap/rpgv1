@@ -12,9 +12,6 @@ public class InventorySlot : BaseInterfaceSlot
         RectTransform slotRect;
         RectTransform textRect;
 
-		// Create stack to store item
-		slotStack = new Stack<BaseObject>();
-
         // Configure the text
         slotRect = GetComponent<RectTransform>();
         textRect = slotText.GetComponent<RectTransform>();

@@ -13,7 +13,7 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 	public float slotTextScale = 0.5f;
 
 	[Header("Information")]
-	public Stack<BaseObject> slotStack;
+    public Stack<BaseObject> slotStack = new Stack<BaseObject>();
 
     //===================================
     // Base Use Function for Inheritance
@@ -90,6 +90,7 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
     {
         if(IsEmpty ())
         {
+            Debug.Log("Empty");
             return;
         }
 

@@ -5,6 +5,7 @@ using ItemConfig;
 [System.Serializable]
 public class BaseItem : BaseObject
 {
+    [Header("Properties")]
 	public ItemQuality itemQuality;         				// How rare the item is
 	public ItemClass mainClass;         					// Weapon, Armor, Consumable
 	public ItemSubClass subClass;           				// Sword, Helmet, Potion
@@ -16,8 +17,16 @@ public class BaseItem : BaseObject
 	public int maxCount = 0;                				// How many we can have in our inventory
 	public int stackSize = 1;               				// How many can be placed in a single stack
 	public int maxDurability = -1;							// How much durability the item has
+
+    [Header("OnUse")]
     public int spellID = -1;                                // On use spell
     public int spellCharges = -1;                           // How many times we can use the item
+
+    [Header("Stat Modifiers")]
+    public int stamina = 0;                                 // Stat Modifier - Stamina
+    public int strength = 0;                                // Stat Modifier - Strength
+    public int agility = 0;                                 // Stat Modifier - Agility
+    public int intelligence = 0;                            // Stat Modifier - Intelligence
 
     public override void Use()
     {

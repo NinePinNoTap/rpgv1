@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : AttributeItem
+public class Weapon : BaseItem
 {
-	public int Damage;
-	public int Speed;
+	public int damage;
+	public int speed;
 
     public override void Use()
     {

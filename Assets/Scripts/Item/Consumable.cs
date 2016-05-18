@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Consumable : AttributeItem
+public class Consumable : BaseItem
 {
     public int spellDuration = -1;                      // How long the effect
 

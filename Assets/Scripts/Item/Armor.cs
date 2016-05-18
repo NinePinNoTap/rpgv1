@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Armor : AttributeItem
+public class Armor : BaseItem
 {
 	public int defence;
 
