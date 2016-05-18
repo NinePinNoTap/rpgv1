@@ -18,6 +18,7 @@ public class Character
     public int Strength = 0;
     public int Intelligence = 0;
     public int Stamina = 0;
+    public int Agility = 0;
 
     public Character()
     {

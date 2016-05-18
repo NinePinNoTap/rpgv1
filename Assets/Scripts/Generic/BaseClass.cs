@@ -12,11 +12,11 @@ public class BaseClass
     [Header("Resources")]
     public int baseHealth = 0;
     public int baseResourceAmount = 0;
-    public GameResource baseResourceType;
+    public GameResource baseResourceType = GameResource.Mana;
 
-    [Header("Attributes")]
-    public int baseAgility = 0;
-    public int baseIntelligence = 0;
-    public int baseStrength = 0;
-    public int baseStamina = 0;
+    [Header("Base Attributes")]
+    public int baseStrength = 20;
+    public int baseAgility = 20;
+    public int baseIntelligence = 20;
+    public int baseStamina = 20;
 }
