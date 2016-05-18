@@ -38,15 +38,15 @@ public class Tooltip : MonoBehaviour
     // Adds Text to the Tooltip
     //==========================
 
-    public void AddText(string tooltipLine)
+    public void AddText(string textInput)
     {
-        tooltipStrings.Add(tooltipLine);
+        tooltipStrings.Add(textInput);
     }
 
-    public void AddText(string tooltipLine, int lineSize, Color lineColor)
+    public void AddText(string textInput, int textSize, Color textColor, bool isBold = false, bool isItalic = false)
     {
-        tooltipLine = TextFormat.Format(tooltipLine, lineSize, lineColor);
-        tooltipStrings.Add(tooltipLine);
+        textInput = TextFormat.Format(textInput, textSize, textColor, isBold, isItalic);
+        tooltipStrings.Add(textInput);
     }
 
     //==========================
@@ -70,7 +70,11 @@ public class Tooltip : MonoBehaviour
             {
                 tooltipText.text += "\n";
             }
-            tooltipText.text += str;
+
+            if(str.Length > 0)
+            {
+                tooltipText.text += str;
+            }
         }
     }
 

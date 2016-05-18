@@ -17,6 +17,7 @@ public class ActionBar : BaseInterfacePanel
 		{
             BaseAbility baseAbility = new BaseAbility();
             baseAbility.name = "Fire Spell";
+            baseAbility.description = "A fiery spell that sets enemies on fire.";
 			baseAbility.icon = Resources.Load<Sprite>("custom-spell");
 			baseAbility.spellMinDamage = 5;
 			baseAbility.spellMaxDamage = 10;
@@ -27,10 +28,7 @@ public class ActionBar : BaseInterfacePanel
 
         if(Input.GetKeyDown(KeyCode.Alpha8))
         {
-            BaseItem item = ItemDatabase.Instance.itemDB[0];
-            item.spellCharges = 1;
-
-            AddItem(item);
+            AddItem(ItemDatabase.Instance.itemDB[0]);
         }
 	}
 

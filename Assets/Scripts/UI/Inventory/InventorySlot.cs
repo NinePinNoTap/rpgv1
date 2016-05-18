@@ -13,7 +13,7 @@ public class InventorySlot : BaseInterfaceSlot
         RectTransform textRect;
 
 		// Create stack to store item
-		slotStack = new Stack<BaseUsable>();
+		slotStack = new Stack<BaseObject>();
 
         // Configure the text
         slotRect = GetComponent<RectTransform>();
@@ -144,32 +144,4 @@ public class InventorySlot : BaseInterfaceSlot
     {
         return slotStack.Count;
     }
-
-	//=====================
-	// Show / Hide Tooltip 
-	//=====================
-
-	public override void ShowTooltip()
-	{
-		if(IsEmpty ())
-		{
-			return;
-		}
-
-        UIManager.Instance.tooltip.ClearTooltip();
-        
-        UIManager.Instance.tooltip.AddText(GetItem().name, 24, Color.blue);
-        UIManager.Instance.tooltip.AddText(GetItem().mainClass.ToString(), 16, Color.green);
-        UIManager.Instance.tooltip.AddText(GetItem().subClass.ToString(), 16, Color.green);
-        UIManager.Instance.tooltip.AddText(GetItem().requiredLevel.ToString(), 16, Color.red);
-        UIManager.Instance.tooltip.AddText(TextFormat.Format(GetItem().description, 16, Color.yellow, false, true));
-        UIManager.Instance.tooltip.Build();
-
-        UIManager.Instance.tooltip.ShowTooltip();
-	}
-
-	public override void HideTooltip()
-	{
-        UIManager.Instance.tooltip.HideTooltip();
-	}
 }

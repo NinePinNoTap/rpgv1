@@ -13,7 +13,7 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 	public float slotTextScale = 0.5f;
 
 	[Header("Information")]
-	public Stack<BaseUsable> slotStack;
+	public Stack<BaseObject> slotStack;
 
     //===================================
     // Base Use Function for Inheritance
@@ -50,13 +50,11 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 	{
 		if(IsEmpty())
         {
-            Debug.Log("Using empty");
 			slotIcon.sprite = slotEmpty;
 			slotIcon.overrideSprite = slotEmpty;
 		}
 		else
         {
-            Debug.Log("Using sprite");
 			slotIcon.sprite = useableIcon;
 			slotIcon.overrideSprite = useableIcon;
 		}
@@ -88,14 +86,23 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 	// Show / Hide Tooltip 
 	//=====================
 
-	public virtual void ShowTooltip()
-	{
-		Debug.Log ("Show Tooltip");
-	}
-	
-	public virtual void HideTooltip()
-	{
-		Debug.Log ("Hide Tooltip");
-	}
+    public void ShowTooltip()
+    {
+        if(IsEmpty ())
+        {
+            return;
+        }
+
+        UIManager.Instance.tooltip.ClearTooltip();
+        slotStack.Peek().GetTooltip();
+        UIManager.Instance.tooltip.Build();
+
+        UIManager.Instance.tooltip.ShowTooltip();
+    }
+
+    public void HideTooltip()
+    {
+        UIManager.Instance.tooltip.HideTooltip();
+    }
 }
 

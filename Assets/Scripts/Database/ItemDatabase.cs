@@ -41,7 +41,6 @@ public class ItemDatabase : Singleton<ItemDatabase>
         loadItem.sellPrice = int.Parse(itemInfo[10]);
         loadItem.maxCount = int.Parse(itemInfo[11]);
         loadItem.stackSize = int.Parse(itemInfo[12]);
-        loadItem.spellCharges = int.Parse(itemInfo[13]);
 
         itemDB.Add(loadItem);
     }

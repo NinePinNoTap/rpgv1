@@ -8,7 +8,7 @@ public class ActionBarSlot : BaseInterfaceSlot
 	void Start ()
 	{		
 		// Create stack to store item
-		slotStack = new Stack<BaseUsable>();
+		slotStack = new Stack<BaseObject>();
 	
 		// Text Counter
 		slotText.text = "";
@@ -17,23 +17,8 @@ public class ActionBarSlot : BaseInterfaceSlot
 	public override void UseSlot ()
 	{
 		if (!IsEmpty())
-		{
-            if(slotStack.Peek().GetType().Equals(typeof(BaseAbility)))
-            {
-                BaseAbility ability = slotStack.Peek() as BaseAbility;
-                
-                ability.Use();
-            }
-            else if(slotStack.Peek().GetType().Equals(typeof(BaseItem)))
-            {
-                BaseItem ability = slotStack.Peek() as BaseItem;
-                
-                ability.Use();
-            }
-            else
-            {
-                slotStack.Peek().Use();
-            }
+        {
+            slotStack.Peek().Use();
 		}
   	}
 }

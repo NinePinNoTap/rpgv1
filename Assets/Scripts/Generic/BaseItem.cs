@@ -3,7 +3,7 @@ using System.Collections;
 using ItemConfig;
 
 [System.Serializable]
-public class BaseItem : BaseUsable
+public class BaseItem : BaseObject
 {
 	public ItemQuality itemQuality;         				// How rare the item is
 	public ItemClass mainClass;         					// Weapon, Armor, Consumable
@@ -16,10 +16,23 @@ public class BaseItem : BaseUsable
 	public int maxCount = 0;                				// How many we can have in our inventory
 	public int stackSize = 1;               				// How many can be placed in a single stack
 	public int maxDurability = -1;							// How much durability the item has
+    public int spellID = -1;                                // On use spell
+    public int spellCharges = -1;                           // How many times we can use the item
 
-    public virtual void Use()
+    public override void Use()
     {
         Debug.Log(name + " - Use Item");
+    }
+
+    public override void GetTooltip()
+    {
+        UIManager.Instance.tooltip.AddText(name, 30, Color.blue);
+        UIManager.Instance.tooltip.AddText("Item Level : " + itemLevel.ToString(), 20, Color.red);
+        UIManager.Instance.tooltip.AddText("Class : " + mainClass.ToString(), 20, Color.white);
+        UIManager.Instance.tooltip.AddText("Sub Class : " + subClass.ToString(), 20, Color.white);
+        UIManager.Instance.tooltip.AddText("Required Level : " + requiredLevel.ToString(), 20, Color.red);
+        UIManager.Instance.tooltip.AddText("Durability : " + maxDurability.ToString(), 20, Color.white);
+        UIManager.Instance.tooltip.AddText(TextFormat.Format(description, 18, Color.white, false, true));
     }
 	
 	//======================================
@@ -36,13 +49,13 @@ public class BaseItem : BaseUsable
         return stackSize > 1;
     }
 
-	public bool HasExpired()
-	{
-		return spellCharges == 0;
-	}
+    public bool HasExpired()
+    {
+        return spellCharges == 0;
+    }
 
     //======================================
-    // Override
+    // Override Unity
     //======================================
 
     public override bool Equals(object obj)
