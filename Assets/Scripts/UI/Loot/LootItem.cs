@@ -1,19 +1,28 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class LootItem : MonoBehaviour
+public class LootItem : BaseInterfaceSlot
 {
-    public Image lootImage;
-    public Text lootText;
-    public BaseItem lootItem;
-
     public void SetItem(BaseItem item)
     {
-        lootItem = item;
+        AddToSlot(item);
+        SetSlotText(item.name);
+    }
 
-        lootImage.sprite = item.icon;
-        lootImage.overrideSprite = item.icon;
-        lootText.text = item.name;
+    public void AddToPlayerInventory()
+    {
+        if(IsEmpty())
+        {
+            Debug.Log("Error - Stack Empty");
+            return;
+        }
+
+        if(UIManager.Instance.inventory.HasEmptySlots())
+        {
+            HideTooltip();
+            UIManager.Instance.inventory.AddItem(slotStack.Peek() as BaseItem);
+            UIManager.Instance.lootWindow.RemoveLoot(gameObject);
+        }
     }
 }

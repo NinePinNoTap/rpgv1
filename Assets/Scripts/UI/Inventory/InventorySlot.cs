@@ -37,7 +37,7 @@ public class InventorySlot : BaseInterfaceSlot
 				slotStack.Pop();
 
 				UpdateTextCounter();
-				UpdateSlotIcon(GetItem ().icon);
+				RefreshIcon();
 			}
         }
     }
@@ -64,7 +64,7 @@ public class InventorySlot : BaseInterfaceSlot
         slotStack.Push(item);
 
         UpdateTextCounter();
-		UpdateSlotIcon(item.icon);
+		RefreshIcon();
     }
 
     //=================================

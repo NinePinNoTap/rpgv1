@@ -64,6 +64,13 @@ public class Inventory : BaseInterfacePanel
 		}
     }
 
+    public bool HasEmptySlots()
+    {
+        IEnumerable<GameObject> emptySlots = panelSlots.Where(obj => obj.GetComponent<InventorySlot>().IsEmpty());
+        
+        return emptySlots.Count() > 0;
+    }
+
     //========================================
     // Checks if we have too many of the item
     //========================================

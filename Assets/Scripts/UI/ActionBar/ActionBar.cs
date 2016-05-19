@@ -23,32 +23,22 @@ public class ActionBar : BaseInterfacePanel
 			baseAbility.spellMaxDamage = 10;
 			baseAbility.spellAvgDamage = 7;
 			baseAbility.spellCooldown = 3;
-			AddAbility(baseAbility);
+            AddToBar(baseAbility);
 		}
 
         if(Input.GetKeyDown(KeyCode.Alpha8))
         {
-            AddItem(ItemDatabase.Instance.itemDB[0]);
+            AddToBar(ItemDatabase.Instance.itemDB[0]);
         }
 	}
 
-	public void AddAbility(BaseAbility ability)
+	public void AddToBar(BaseObject newObject)
 	{
-		IEnumerable<GameObject> emptySlots = panelSlots.Where(obj => obj.GetComponent<ActionBarSlot>().IsEmpty());
-		
-		if(emptySlots.Count() > 0)
-		{
-			emptySlots.First().GetComponent<ActionBarSlot>().AddAbility(ability);
-		}
-	}
-
-    public void AddItem(BaseItem item)
-    {
         IEnumerable<GameObject> emptySlots = panelSlots.Where(obj => obj.GetComponent<ActionBarSlot>().IsEmpty());
         
         if(emptySlots.Count() > 0)
         {
-            emptySlots.First().GetComponent<ActionBarSlot>().AddItem(item);
+            emptySlots.First().GetComponent<ActionBarSlot>().AddToSlot(newObject);
         }
-    }
+  	}
 }

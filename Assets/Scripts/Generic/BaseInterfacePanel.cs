@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BaseInterfacePanel : MonoBehaviour
 {
@@ -62,5 +63,5 @@ public class BaseInterfacePanel : MonoBehaviour
 		
 		// Add to our array
 		panelSlots.Add(slotObj);
-	}
+  	}
 }

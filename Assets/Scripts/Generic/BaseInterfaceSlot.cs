@@ -15,9 +15,9 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 	[Header("Information")]
     public Stack<BaseObject> slotStack = new Stack<BaseObject>();
 
-    //===================================
-    // Base Use Function for Inheritance
-    //===================================
+    //===========
+    // Execution
+    //===========
 
 	public virtual void UseSlot()
 	{
@@ -28,25 +28,18 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
     // Slot Management
     //=================
 
-    public void AddAbility(BaseAbility ability)
+    public void AddToSlot(BaseObject obj)
     {
-        slotStack.Push(ability);
-        
-        UpdateSlotIcon(ability.icon);
-    }
-    
-    public void AddItem(BaseItem item)
-    {
-        slotStack.Push(item);
-        
-        UpdateSlotIcon(item.icon);
+        slotStack.Push(obj);
+
+        RefreshIcon();
     }
 	
 	//==============================
-	// Updates the Icon Sprite
+	// UI Management
 	//==============================
 
-	protected void UpdateSlotIcon(Sprite useableIcon)
+	protected void RefreshIcon()
 	{
 		if(IsEmpty())
         {
@@ -55,10 +48,20 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
 		}
 		else
         {
-			slotIcon.sprite = useableIcon;
-			slotIcon.overrideSprite = useableIcon;
+			slotIcon.sprite = slotStack.Peek().icon;
+            slotIcon.overrideSprite = slotStack.Peek().icon;
 		}
 	}
+
+    protected void SetSlotText(string inputText)
+    {
+        if(!slotText)
+        {
+            return;
+        }
+
+        slotText.text = inputText;
+    }
 	
 	//==============================
 	// Checks if the stack is empty
@@ -90,7 +93,6 @@ public class BaseInterfaceSlot : MonoBehaviour, IPointerClickHandler
     {
         if(IsEmpty ())
         {
-            Debug.Log("Empty");
             return;
         }
 

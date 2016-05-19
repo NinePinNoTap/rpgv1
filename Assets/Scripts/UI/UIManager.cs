@@ -6,6 +6,7 @@ public class UIManager : Singleton<UIManager>
     public Inventory inventory;
     public ActionBar actionBar;
     public Tooltip tooltip;
+    public LootWindow lootWindow;
 
     public void ShowInventory()
     {
