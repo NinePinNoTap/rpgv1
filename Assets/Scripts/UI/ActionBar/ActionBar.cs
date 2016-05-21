@@ -5,12 +5,6 @@ using System.Linq;
 
 public class ActionBar : BaseInterfacePanel
 {
-	void Start ()
-	{
-		CreatePanel();
-		CreateSlots();
-	}
-
 	void Update ()
 	{
 		if(Input.GetKeyDown(KeyCode.Alpha7))

@@ -5,12 +5,6 @@ using System.Linq;
 
 public class Inventory : BaseInterfacePanel
 {
-	void Start ()
-    {
-		CreatePanel();
-		CreateSlots();
-	}
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1)) AddItem(ItemDatabase.Instance.itemDB[0]);

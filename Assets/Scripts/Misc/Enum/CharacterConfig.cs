@@ -8,9 +8,9 @@ namespace CharacterConfig
 
 	public enum GameClass
 	{
-		Mage,		// 0
-		Hunter,		// 1
-		Warrior		// 2
+		Hunter = 0,		// 0
+		Mage = 1,		// 1
+		Warrior = 2		// 2
 	}
 	
 	//===============================
@@ -19,7 +19,9 @@ namespace CharacterConfig
 
 	public enum GameRace
 	{
-		Human
+        Human = 0,
+        HighElf = 1,
+        DarkOrc = 2
 	}
 
 	//===============================
@@ -28,9 +30,9 @@ namespace CharacterConfig
 
 	public enum GameGender
 	{
-		Male,
-		Female,
-		Other		// To Be Used
+		Male = 0,
+		Female = 1,
+		Other = 2       // To Be Used
 	}
 	
 	//===============================
@@ -39,8 +41,8 @@ namespace CharacterConfig
 
 	public enum GameResource
 	{
-		Energy,
-		Mana,
-		Rage
+		Energy = 0,
+		Mana = 1,
+		Rage = 2
 	}
 }

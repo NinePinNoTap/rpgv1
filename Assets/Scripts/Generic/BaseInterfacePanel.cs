@@ -6,7 +6,6 @@ using System.Linq;
 public class BaseInterfacePanel : MonoBehaviour
 {
 	[Header("Configuration")]
-	public Vector3 baseOffset = new Vector3(0,0,0);
 	public int columnCount = 1;
 	public int rowCount = 1;
 	public float slotPadding = 10;
@@ -16,16 +15,21 @@ public class BaseInterfacePanel : MonoBehaviour
 	protected RectTransform panelBackground;
 	protected Vector2 panelSize;
 
+    void Start()
+    {
+        CreatePanel();
+        CreateSlots();
+    }
+
 	protected void CreatePanel()
 	{
 		// Calculate size of inventory window
-		panelSize = new Vector2(0, 0);
+        panelSize = new Vector2();
 		panelSize.x = columnCount * (slotSize + slotPadding) + slotPadding;
 		panelSize.y = rowCount * (slotSize + slotPadding) + slotPadding;
 		
 		// Set up the inventory background
 		panelBackground = GetComponent<RectTransform>();
-		panelBackground.localPosition = baseOffset;
 		panelBackground.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, panelSize.x);
 		panelBackground.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelSize.y);
 	}
@@ -57,8 +61,8 @@ public class BaseInterfacePanel : MonoBehaviour
 		slotRect = slotObj.GetComponent<RectTransform>();
 		slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize);
 		slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
-		slotPosition.x = slotPadding * (x + 1) + (slotSize * x) - (panelBackground.sizeDelta.x / 2);
-		slotPosition.y = -slotPadding * (y + 1) - (slotSize * y) + (panelBackground.sizeDelta.y / 2);
+        slotPosition.x = slotPadding * (x + 1) + (slotSize * x) - (panelBackground.sizeDelta.x * panelBackground.pivot.x);
+        slotPosition.y = -slotPadding * (y + 1) - (slotSize * y) + (panelBackground.sizeDelta.y * (1-panelBackground.pivot.y));
 		slotRect.localPosition = slotPosition;
 		
 		// Add to our array

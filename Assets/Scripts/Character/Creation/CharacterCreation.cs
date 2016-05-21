@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
 using CharacterConfig;
+using System.Collections.Generic;
 
 public class CharacterCreation : MonoBehaviour
 {
@@ -9,20 +10,33 @@ public class CharacterCreation : MonoBehaviour
     public GameObject maleCharacter;
     public GameObject femaleCharacter;
 
+    [Header("Options")]
+    public List<string> classNames = new List<string>() { "Hunter", "Mage", "Warrior" };
+    public List<string> genderNames = new List<string>() { "Male", "Female" };
+    public List<string> raceNames = new List<string>() { "Human", "High Elf", "Dark Orc" };
+
 	[Header("Character Studio")]
 	public int maximumNameLength = 10;
 	public Character inProgress;
 
-	private string selectedName;
-	private GameGender selectedGender;
-    private GameClass selectedClass;
-	private GameRace selectedRace;
+    private string selectedName = "";
+    public int selectedGender = 0;
+    public int selectedClass = 0;
+    public int selectedRace = 0;
 
 	void Start ()
 	{
-        inProgress = new Character();
+        inProgress = new Character();     
 	}
 
+    void OnGUI()
+    {
+        selectedClass = GUILayout.SelectionGrid(selectedClass, classNames.ToArray(), 1);
+        selectedRace = GUILayout.SelectionGrid(selectedRace, raceNames.ToArray(), 1);
+        selectedGender = GUILayout.SelectionGrid(selectedGender, genderNames.ToArray(), 1);
+    }
+
+    /*
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(30,30, Screen.width * 0.3f, Screen.height - 30));
@@ -46,8 +60,8 @@ public class CharacterCreation : MonoBehaviour
 		
 		GUILayout.BeginVertical();
 		
-		selectedClass = (GameClass)GUILayout.SelectionGrid((int)selectedClass, new string[] { "Hunter", "Mage", "Warrior" }, 1);
-		
+		selectedClass = GUILayout.SelectionGrid(selectedClass, new string[] { "Hunter", "Mage", "Warrior" }, 1);	
+
 		GUILayout.EndVertical();
 		
 		//==================
@@ -56,7 +70,7 @@ public class CharacterCreation : MonoBehaviour
 		
 		GUILayout.BeginVertical();
 		
-		selectedRace = (GameRace)GUILayout.SelectionGrid((int)selectedRace, new string[] { "Human" }, 1);
+		selectedRace = GUILayout.SelectionGrid(selectedRace, new string[] { "Human" }, 1);
 
 		GUILayout.EndVertical();
 
@@ -66,9 +80,9 @@ public class CharacterCreation : MonoBehaviour
 
         GUILayout.BeginVertical();
 
-        selectedGender = (GameGender)GUILayout.SelectionGrid((int)selectedGender, new string[] { "Male", "Female" }, 1);
+        selectedGender = GUILayout.SelectionGrid(selectedGender, new string[] { "Male", "Female" }, 1);
 
-        switch(selectedGender)
+        switch(Parse.Enum<GameGender>(selectedGender))
         {
             case GameGender.Male:
                 maleCharacter.SetActive(true);
@@ -109,12 +123,12 @@ public class CharacterCreation : MonoBehaviour
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }
-
+*/
     void GenerateCharacter()
     {
 		inProgress.characterName = selectedName;
 
-		switch(selectedClass)
+        switch(Parse.Enum<GameClass>(selectedClass))
 		{
 			case GameClass.Hunter:
 				inProgress.characterClass = new HunterClass();
@@ -129,7 +143,7 @@ public class CharacterCreation : MonoBehaviour
 				break;
 		}
 		
-		switch(selectedGender)
+        switch(Parse.Enum<GameGender>(selectedGender))
 		{
 			case GameGender.Male:
 				inProgress.characterGender = GameGender.Male;

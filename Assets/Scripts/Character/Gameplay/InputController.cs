@@ -3,15 +3,24 @@ using System.Collections;
 
 public class InputController : MonoBehaviour
 {
+    [Header("Movement")]
 	public float moveSpeed = 10;
 	public float rotateSpeed = 10;
 	public float fallSpeed = 10;
+
+    [Header("Keys")]
+    public KeyCode bagKey = KeyCode.B;
+
+    [Header("Flags")]
+    public bool showBag = false;
 
 	private CharacterController characterController;
 
 	void Start ()
 	{
 		characterController = GetComponent<CharacterController>();
+
+        UIManager.Instance.HideInventory();
 	}
 	
 	void Update ()
@@ -32,6 +41,15 @@ public class InputController : MonoBehaviour
 		moveVelocity *= Time.deltaTime;
 
 		characterController.Move(moveVelocity);
+
+        if(Input.GetKeyDown(bagKey))
+        {
+            showBag = !showBag;
+            if(showBag)
+                UIManager.Instance.ShowInventory();
+            else
+                UIManager.Instance.HideInventory();
+        }
 	}
 
 	void HandleMoveKey(ref Vector3 moveVelocity, Vector3 moveDirection, KeyCode key)
